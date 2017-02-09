@@ -3,6 +3,8 @@ source 'https://gems.ruby-china.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+#Bootstrap 框架本身使用 LESS 编写动态样式表,而 Rails 的 Asset Pipeline 默认支持的是(非常类似的)Sass 语言。 bootstrap-sass 会把 LESS 转换成 Sass,而且让 Bootstrap 中所有必要的文件都可以在当前应用中使用
+gem 'bootstrap-sass'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
@@ -47,6 +49,7 @@ group :development do
 end
 
 group :test do
+  gem 'rails-controller-testing'
 	gem 'minitest-reporters'
 	gem 'mini_backtrace'
 	gem 'guard-minitest'
