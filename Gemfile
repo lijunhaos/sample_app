@@ -5,7 +5,7 @@ source 'https://gems.ruby-china.org'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 #Bootstrap 框架本身使用 LESS 编写动态样式表,而 Rails 的 Asset Pipeline 默认支持的是(非常类似的)Sass 语言。 bootstrap-sass 会把 LESS 转换成 Sass,而且让 Bootstrap 中所有必要的文件都可以在当前应用中使用
 gem 'bootstrap-sass'
-# Use Puma as the app server
+# Use Puma as the app server,很好地处理巨大流量
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -57,7 +57,7 @@ end
 
 group :production do
 	gem 'pg'
-	gem 'rails_12factor'
+  gem 'rails_12factor'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
