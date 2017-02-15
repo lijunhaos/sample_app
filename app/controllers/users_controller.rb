@@ -22,11 +22,16 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      #注册即登录
-      log_in @user
-      #处理注册成功的情况
-      flash[:success]="Welcome to the Sample App!"
-      redirect_to user_url @user
+      # #注册即登录
+      # log_in @user
+      # #处理注册成功的情况
+      # flash[:success]="Welcome to the Sample App!"
+      # redirect_to user_url @user
+
+      #在注册过程中添加账户激活
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       render 'new'
     end

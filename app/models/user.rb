@@ -1,10 +1,13 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token
+  #因为激活令牌是虚拟属性,所以创建记住我令牌，和激活账号令牌需要用到
+  attr_accessor :remember_token, :activation_token
+  #保存email之前，将之转换成小写
+  before_save :downcase_email
+  #创建用户之前，创建并赋值激活令牌和摘要
+  before_create :create_activation_digest
 
-  before_save {email.downcase!}
 
   validates :name,presence: true,length: {maximum: 50}
-
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates(
       :email,presence: true,
@@ -36,11 +39,12 @@ class User < ApplicationRecord
   end
 
   # 如果指定的令牌和摘要匹配,返回 true
-  def authenticated?(remember_token)
-    if remember_digest.nil?
+  def authenticated?(attribute,token)
+    digest = self.send("#{attribute}_digest")
+    if digest.nil?
       false
     else
-      BCrypt::Password.new(remember_digest).is_password?(remember_token)
+      BCrypt::Password.new(digest).is_password?(token)
     end
   end
 
@@ -48,4 +52,27 @@ class User < ApplicationRecord
   def forget
     update_attribute(:remember_digest,nil)
   end
+
+  # 激活账户
+  def activate
+    update_attribute(:activated, true)
+    update_attribute(:activated_at, Time.zone.now)
+  end
+
+  # 发送激活邮件
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+
+  private
+  # 把电子邮件地址转换成小写
+    def downcase_email
+      self.email = email.downcase
+    end
+
+  # 创建并赋值激活令牌和摘要
+    def create_activation_digest
+      self.activation_token = User.new_token
+      self.activation_digest = User.digest(activation_token)
+    end
 end
