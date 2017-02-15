@@ -31,6 +31,13 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 gem 'sdoc',	group: :doc
 
+#这个 gem 会使用半真实的名字和电子邮 件地址创建示例用户。
+gem 'faker'
+
+#bootstrap-will_paginate 的作用是设置 will_paginate 使用 Bootstrap 提供的分页样式。
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   #gem 'byebug', '3.4.0'
