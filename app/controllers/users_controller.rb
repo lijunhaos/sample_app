@@ -5,12 +5,14 @@ class UsersController < ApplicationController
 
   #获取所有的用户展示页面
   def index
-    @users = User.paginate(page: params[:page])
+    # @users = User.paginate(page: params[:page])
+    @users = User.where(activated: TRUE).paginate(page: params[:page])
   end
 
   #展示某个用户
   def show
     @user = User.find(params[:id])
+    redirect_to root_url and return unless @user.activated
   end
 
   #获取用户注册页面
