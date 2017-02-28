@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   #展示某个用户
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
     redirect_to root_url and return unless @user.activated
   end
 
@@ -66,16 +67,6 @@ class UsersController < ApplicationController
     #获取用户提交的表单信息
     def user_params
       params.require(:user).permit(:name,:email,:password,:password_confirmation)
-    end
-
-    # 事前过滤器
-    # 确保用户已登录
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
     end
 
     # 确保是正确的用户

@@ -38,6 +38,13 @@ gem 'faker'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 
+#处理图片上传
+gem 'carrierwave'
+#用于调整图片尺寸
+gem 'mini_magick'
+#在生产环境中上传图片
+gem 'fog'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   #gem 'byebug', '3.4.0'

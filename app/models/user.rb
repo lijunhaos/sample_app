@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  # dependent: :destroy 的作用是在用户被删除的时候,把这个用户发布的微博也删除。
+  has_many :microposts, dependent: :destroy
   #因为激活令牌是虚拟属性,所以创建记住我令牌，和激活账号令牌需要用到
   attr_accessor :remember_token, :activation_token, :reset_token
   #保存email之前，将之转换成小写
@@ -81,6 +83,13 @@ class User < ApplicationRecord
   # 如果密码重设超时失效了,返回 true
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+  # 实现动态流原型
+  # 完整的实现参见第 12 章
+  def feed
+    Micropost.where("user_id = ?", id)
+    #microposts
   end
 
   private
