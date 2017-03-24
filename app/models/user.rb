@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   # dependent: :destroy 的作用是在用户被删除的时候,把这个用户发布的微博也删除。
   has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name: "Relationship",foreign_key: "follower_id",dependent: :destroy
   #因为激活令牌是虚拟属性,所以创建记住我令牌，和激活账号令牌需要用到
   attr_accessor :remember_token, :activation_token, :reset_token
   #保存email之前，将之转换成小写
